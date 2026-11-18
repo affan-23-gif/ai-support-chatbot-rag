@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SupportBot Admin</title>
+<link rel="icon" href="data:,">
+<style>
+  body { margin:0; font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; color:#1d2421; background:#f6f7f5; }
+  header { background:#1f5d43; color:#fff; padding:14px 20px; font-weight:600; }
+  main { max-width:900px; margin:0 auto; padding:20px; display:grid; gap:20px; }
+  section { background:#fff; border:1px solid #dfe5e1; border-radius:12px; padding:16px 20px; }
+  h2 { font-size:16px; margin:0 0 10px; }
+  ul { margin:0; padding-left:18px; }
+  table { width:100%; border-collapse:collapse; }
+  th, td { text-align:left; padding:8px 6px; border-bottom:1px solid #eef1ef; vertical-align:top; }
+  th { color:#66706b; font-weight:600; font-size:12px; text-transform:uppercase; }
+  button { background:#1f5d43; color:#fff; border:0; border-radius:8px; padding:8px 14px; cursor:pointer; }
+  #status { color:#66706b; margin-left:8px; }
+  details summary { cursor:pointer; color:#1f5d43; }
+  pre { white-space:pre-wrap; background:#f6f7f5; padding:8px; border-radius:6px; margin:6px 0 0; }
+</style>
+</head>
+<body>
+<header>SupportBot Admin · Pinecrest Trail Co. (demo)</header>
+<main>
+  <section>
+    <h2>Knowledge base</h2>
+    <form id="up"><input type="file" id="file" accept=".md,.txt,.pdf,.csv"> <button>Upload &amp; re-index</button><span id="status"></span></form>
+    <p>Indexed documents:</p><ul id="docs"></ul>
+  </section>
+  <section>
+    <h2>Handoff tickets</h2>
+    <table><thead><tr><th>#</th><th>Created (UTC)</th><th>Reason</th><th>Last message</th></tr></thead><tbody id="tickets"></tbody></table>
+  </section>
+</main>
+<script>
+const el = (tag, text) => { const e = document.createElement(tag); if (text !== undefined) e.textContent = text; return e; };
+async function load() {
+  const docs = await (await fetch('/api/documents')).json();
+  const ul = document.getElementById('docs'); ul.replaceChildren(...docs.map(d => el('li', d)));
+  const tickets = await (await fetch('/api/tickets')).json();
+  const tb = document.getElementById('tickets');
+  tb.replaceChildren(...tickets.map(t => {
+    const tr = el('tr'); tr.append(el('td', t.id), el('td', t.created_at.replace('T', ' ').slice(0, 16)), el('td', t.reason));
+    const td = el('td'); const det = el('details'); det.append(el('summary', t.last_message), el('pre', t.transcript.map(m => `${m.role}: ${m.text}`).join('\n')));
+    td.appendChild(det); tr.appendChild(td); return tr;
+  }));
+  if (!tickets.length) { const tr = el('tr'); const td = el('td', 'No tickets yet.'); td.colSpan = 4; tr.appendChild(td); tb.appendChild(tr); }
+}
+document.getElementById('up').addEventListener('submit', async e => {
+  e.preventDefault();
+  const f = document.getElementById('file').files[0], st = document.getElementById('status');
+  if (!f) return;
+  st.textContent = 'Uploading and re-indexing…';
+  const fd = new FormData(); fd.append('file', f);
+  const res = await fetch('/api/upload', { method:'POST', body: fd });
+  const body = await res.json();
+  st.textContent = res.ok ? `Saved ${body.saved}. ${body.chunks} chunks indexed.` : body.detail;
+  load();
+});
+load();
+</script>
+</body>
+</html>

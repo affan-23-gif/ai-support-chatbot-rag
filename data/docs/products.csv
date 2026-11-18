@@ -1,0 +1,18 @@
+sku,name,category,price_usd,weight,key_features,in_stock
+PT-TNT-2,Ridgeback 2 Tent,Tents,329,3 lb 14 oz,"2-person, freestanding, 2 doors, 3-season",yes
+PT-TNT-4,Basecamp 4 Tent,Tents,449,9 lb 2 oz,"4-person, 2 vestibules, 3-season, 6 ft peak height",yes
+PT-PCK-45,Switchback 45 Backpack,Backpacks,189,2 lb 10 oz,"45 liters, adjustable torso, rain cover included",yes
+PT-PCK-65,Longhaul 65 Backpack,Backpacks,269,4 lb 3 oz,"65 liters, hip-belt pockets, sleeping bag compartment",yes
+PT-PCK-22,Daytripper 22 Pack,Backpacks,89,1 lb 4 oz,"22 liters, hydration sleeve, laptop sleeve",no
+PT-JKT-DWN,Summit Down Jacket,Jackets,249,13 oz,"800-fill down, packs into its own pocket",yes
+PT-JKT-RN,Stormline Rain Shell,Jackets,179,11 oz,"3-layer waterproof breathable, pit zips, helmet-compatible hood",yes
+PT-JKT-FL,Campfire Fleece,Jackets,79,1 lb 1 oz,"recycled polyester fleece, zip hand pockets",yes
+PT-BT-MID,Trailhead Mid Boot,Footwear,159,2 lb 6 oz (pair),"waterproof membrane, Vibram sole, regular and wide widths",yes
+PT-SH-TR,Ridge Runner Trail Shoe,Footwear,129,1 lb 9 oz (pair),"rock plate, 6 mm drop, not waterproof",yes
+PT-SB-20,Alpine 20 Sleeping Bag,Sleeping,299,2 lb 2 oz,"20°F rating, 650-fill down, left zip",yes
+PT-SB-40,Summer 40 Sleeping Bag,Sleeping,129,1 lb 9 oz,"40°F rating, synthetic fill",yes
+PT-PAD-UL,Cloudrest Sleeping Pad,Sleeping,149,15 oz,"inflatable, R-value 4.2, 3 inches thick",yes
+PT-POL-AL,Pinecrest Trekking Poles,Accessories,99,1 lb 1 oz (pair),"aluminum, flick-lock, lifetime warranty",yes
+PT-STV-1,Jetflame Stove,Cooking,69,3.5 oz,"canister stove, piezo igniter, boils 1 liter in about 4 minutes",yes
+PT-FLT-SQ,Clearstream Water Filter,Water,45,3 oz,"0.1 micron hollow-fiber, filters up to 100000 gallons",yes
+PT-HL-400,Beacon 400 Headlamp,Lighting,49,3 oz,"400 lumens, USB-C rechargeable, red light mode",yes

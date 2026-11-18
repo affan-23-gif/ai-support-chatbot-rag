@@ -1,0 +1,8 @@
+.env
+.venv
+data/index
+data/supportbot.db
+eval/.index
+eval/.eval.db
+__pycache__
+.pytest_cache
