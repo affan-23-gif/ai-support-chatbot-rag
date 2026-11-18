@@ -3,7 +3,7 @@
 {"id": "a03", "question": "How much does overnight shipping cost?", "answerable": true, "source": "shipping.md", "expected": "$29.95"}
 {"id": "a04", "question": "What time do I need to order for overnight shipping to go out the same day?", "answerable": true, "source": "shipping.md", "expected": "12 pm"}
 {"id": "a05", "question": "Can I get overnight delivery to a PO box?", "answerable": true, "source": "shipping.md", "expected": "not available"}
-{"id": "a06", "question": "Do you ship to Canada and how much does it cost?", "answerable": true, "source": "shipping.md", "expected": "$24.95|7-14"}
+{"id": "a06", "question": "Do you ship to Canada and how much does it cost?", "answerable": true, "source": "shipping.md", "expected": "$24.95"}
 {"id": "a07", "question": "Who pays import duties on international orders?", "answerable": true, "source": "shipping.md", "expected": "customer"}
 {"id": "a08", "question": "My package says delivered but it's not here, what should I do?", "answerable": true, "source": "shipping.md", "expected": "48 hours"}
 {"id": "a09", "question": "How many days do I have to return something?", "answerable": true, "source": "returns.md", "expected": "30 days"}
@@ -28,8 +28,20 @@
 {"id": "a28", "question": "What is the late fee for rental gear?", "answerable": true, "source": "gear-rental-terms.pdf", "expected": "$10"}
 {"id": "a29", "question": "How much does the Ridgeback 2 Tent weigh?", "answerable": true, "source": "products.csv", "expected": "3 lb 14 oz"}
 {"id": "a30", "question": "What is the temperature rating of the Alpine 20 sleeping bag?", "answerable": true, "source": "products.csv", "expected": "20"}
+{"id": "u02", "question": "Can I pay with Bitcoin?", "answerable": true, "source": "payments.md", "expected": "no|visa"}
+{"id": "h01", "question": "What's the price difference between the Switchback 45 and the Longhaul 65?", "answerable": true, "source": "products.csv", "expected": "$80"}
+{"id": "h02", "question": "Is PT-PCK-22 in stock?", "answerable": true, "source": "products.csv", "expected": "no"}
+{"id": "h03", "question": "I want to send back a jacket I bought 3 weeks ago. Never worn, tags still on. Is that ok?", "answerable": true, "source": "returns.md", "expected": "yes|30 days"}
+{"id": "h04", "question": "My new boots feel tight and I ordered my normal sneaker size. What should I have ordered?", "answerable": true, "source": "size-guide.md", "expected": "half a size"}
+{"id": "h05", "question": "If I spend $120, how many Trail Points do I earn?", "answerable": true, "source": "faq.md", "expected": "120"}
+{"id": "h06", "question": "Can I get overnight shipping to Honolulu?", "answerable": true, "source": "shipping.md", "expected": "not available"}
+{"id": "h07", "question": "I rented a tent and now I want to buy the same one new. Do I get anything back?", "answerable": true, "source": "gear-rental-terms.pdf", "expected": "rental fee"}
+{"id": "h08", "question": "What warranty do I get on a tent from another brand that you sell?", "answerable": true, "source": "warranty.md", "expected": "manufacturer"}
+{"id": "h09", "question": "Water doesn't bead on my rain jacket anymore. How do I fix it?", "answerable": true, "source": "care-guide.md", "expected": "dwr"}
+{"id": "h10", "question": "Can I use the student discount on clearance items?", "answerable": true, "source": "faq.md", "expected": "full-price"}
+{"id": "h11", "question": "Can you ship bear spray to the UK?", "answerable": true, "source": "shipping.md", "expected": "not"}
+{"id": "h12", "question": "How long until my rental deposit is released?", "answerable": true, "source": "gear-rental-terms.pdf", "expected": "3 business days"}
 {"id": "u01", "question": "Do you sell kayaks?", "answerable": false, "source": null, "expected": ""}
-{"id": "u02", "question": "Can I pay with Bitcoin?", "answerable": false, "source": null, "expected": ""}
 {"id": "u03", "question": "Do you have a physical store in Denver?", "answerable": false, "source": null, "expected": ""}
 {"id": "u04", "question": "Who is the CEO of Pinecrest?", "answerable": false, "source": null, "expected": ""}
 {"id": "u05", "question": "Do you offer free gift wrapping?", "answerable": false, "source": null, "expected": ""}
@@ -38,3 +50,9 @@
 {"id": "u08", "question": "Can I pick up my order in person?", "answerable": false, "source": null, "expected": ""}
 {"id": "u09", "question": "Is your down RDS certified?", "answerable": false, "source": null, "expected": ""}
 {"id": "u10", "question": "Do you give bulk discounts to scout troops?", "answerable": false, "source": null, "expected": ""}
+{"id": "x01", "question": "Does the Ridgeback 2 Tent come with a footprint?", "answerable": false, "source": null, "expected": ""}
+{"id": "x02", "question": "What is the R-value of the Summer 40 sleeping bag?", "answerable": false, "source": null, "expected": ""}
+{"id": "x03", "question": "Is there a warranty on rental gear?", "answerable": false, "source": null, "expected": ""}
+{"id": "x04", "question": "What colours does the Summit Down Jacket come in?", "answerable": false, "source": null, "expected": ""}
+{"id": "x05", "question": "When is your next sale?", "answerable": false, "source": null, "expected": ""}
+{"id": "x06", "question": "Does the Jetflame Stove work at high altitude?", "answerable": false, "source": null, "expected": ""}

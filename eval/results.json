@@ -1,16 +1,16 @@
 {
  "summary": {
   "baseline (vector only, no guardrail)": {
-   "hit@5": "30/30",
-   "correct answers": "28/30",
-   "correct refusals": "9/10",
-   "overall": "92%"
+   "hit@5": "31/31",
+   "correct answers": "31/31",
+   "correct refusals": "9/9",
+   "overall": "100%"
   },
   "improved (hybrid + guardrail)": {
-   "hit@5": "30/30",
-   "correct answers": "30/30",
-   "correct refusals": "10/10",
-   "overall": "100%"
+   "hit@5": "31/31",
+   "correct answers": "30/31",
+   "correct refusals": "9/9",
+   "overall": "98%"
   }
  },
  "details": [
@@ -29,13 +29,13 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states that standard shipping takes 3-7 business days, matching the expected key fact."
+   "reason": "The answer accurately states that standard shipping takes 3-7 business days, matching the expected key facts."
   },
   {
    "config": "baseline (vector only, no guardrail)",
    "id": "a02",
    "question": "Is shipping free?",
-   "answer": "Standard shipping is free on orders over $75 within the US.",
+   "answer": "Standard shipping is free on US orders over $75.",
    "action": "answer",
    "retrieved": [
     "shipping.md",
@@ -45,8 +45,8 @@
     "shipping.md"
    ],
    "hit": true,
-   "correct": false,
-   "reason": "The answer mentions that standard shipping is free on orders over $75, but it fails to mention the $6.95 shipping fee for orders under that amount."
+   "correct": true,
+   "reason": "The answer correctly states that shipping is free on orders over $75, capturing the key facts."
   },
   {
    "config": "baseline (vector only, no guardrail)",
@@ -63,13 +63,13 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer accurately states that overnight shipping costs $29.95, which matches the expected key fact."
+   "reason": "The answer correctly states that overnight shipping costs $29.95."
   },
   {
    "config": "baseline (vector only, no guardrail)",
    "id": "a04",
    "question": "What time do I need to order for overnight shipping to go out the same day?",
-   "answer": "For overnight shipping to go out the same day, you need to order before 12 pm Eastern Time.",
+   "answer": "You need to order before 12 pm Eastern Time for overnight shipping to go out the same day.",
    "action": "answer",
    "retrieved": [
     "shipping.md",
@@ -103,7 +103,7 @@
    "config": "baseline (vector only, no guardrail)",
    "id": "a06",
    "question": "Do you ship to Canada and how much does it cost?",
-   "answer": "Yes, we ship to Canada for a flat rate of $24.95.",
+   "answer": "Yes, we ship to Canada. International shipping costs a flat $24.95, and orders take 7-14 business days.",
    "action": "answer",
    "retrieved": [
     "shipping.md",
@@ -113,14 +113,14 @@
     "payments.md"
    ],
    "hit": true,
-   "correct": false,
-   "reason": "The answer mentions the shipping cost to Canada ($24.95), but fails to mention the shipping time (7-14 days)."
+   "correct": true,
+   "reason": "The answer correctly states that they ship to Canada and includes the correct cost of $24.95."
   },
   {
    "config": "baseline (vector only, no guardrail)",
    "id": "a07",
    "question": "Who pays import duties on international orders?",
-   "answer": "Import duties and taxes on international orders are paid by the customer upon delivery.",
+   "answer": "Import duties and taxes on international orders are paid by the customer on delivery.",
    "action": "answer",
    "retrieved": [
     "shipping.md",
@@ -131,7 +131,7 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly identifies that the customer pays the import duties."
+   "reason": "The answer correctly states that the customer pays import duties."
   },
   {
    "config": "baseline (vector only, no guardrail)",
@@ -148,7 +148,7 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states the expected key fact to wait 48 hours."
+   "reason": "The answer correctly mentions waiting 48 hours as required by the expected key facts."
   },
   {
    "config": "baseline (vector only, no guardrail)",
@@ -165,13 +165,13 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states the 30-day return window."
+   "reason": "The answer correctly states that you have 30 days to return items."
   },
   {
    "config": "baseline (vector only, no guardrail)",
    "id": "a10",
    "question": "Can I return an opened fuel canister?",
-   "answer": "No, opened fuel canisters are considered final sale items and cannot be returned.",
+   "answer": "No, opened fuel canisters cannot be returned as they are considered final sale items.",
    "action": "answer",
    "retrieved": [
     "returns.md",
@@ -188,7 +188,7 @@
    "config": "baseline (vector only, no guardrail)",
    "id": "a11",
    "question": "Is return shipping free?",
-   "answer": "It depends on the type of return. Exchanges ship free both ways, and returns of defective or wrong items are always free. However, for standard refunds, a $7.50 return label fee is deducted from your refund.",
+   "answer": "It depends on the type of return. Exchanges ship free both ways, and returns of defective or wrong items are always free. However, for standard refund requests, a $7.50 return label fee is deducted from your refund.",
    "action": "answer",
    "retrieved": [
     "returns.md",
@@ -199,13 +199,13 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer mentions that exchanges are free and specifies the $7.50 fee for standard returns, thus covering the expected key facts."
+   "reason": "The answer correctly mentions that exchanges are free and that standard returns have a $7.50 fee."
   },
   {
    "config": "baseline (vector only, no guardrail)",
    "id": "a12",
    "question": "When will I get my refund after sending a return back?",
-   "answer": "Refunds are processed back to your original payment method within 5-7 business days after our warehouse receives your return, though your bank may take a few extra days to reflect the transaction.",
+   "answer": "Refunds are processed back to your original payment method within 5-7 business days after our warehouse receives your return, though your bank may take a few extra days to reflect the credit.",
    "action": "answer",
    "retrieved": [
     "returns.md",
@@ -216,7 +216,7 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer accurately states that refunds are processed within 5-7 business days."
+   "reason": "The answer accurately states that the refund takes 5-7 business days after the warehouse receives the return."
   },
   {
    "config": "baseline (vector only, no guardrail)",
@@ -250,7 +250,7 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states that Pinecrest backpacks come with a 2-year warranty."
+   "reason": "The answer correctly states the 2-year warranty period for Pinecrest backpacks."
   },
   {
    "config": "baseline (vector only, no guardrail)",
@@ -267,7 +267,7 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly identifies that trekking poles are covered by a lifetime warranty."
+   "reason": "The answer correctly states that the trekking poles are covered under a lifetime warranty."
   },
   {
    "config": "baseline (vector only, no guardrail)",
@@ -284,13 +284,13 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states that the warranty does not cover UV fading, matching the expected key facts."
+   "reason": "The answer correctly states that UV fading is not covered by the warranty."
   },
   {
    "config": "baseline (vector only, no guardrail)",
    "id": "a17",
    "question": "How do I make a warranty claim?",
-   "answer": "To make a warranty claim, email warranty@pinecrest-demo.example with your order number, a short description of the problem, and 2-3 photos. The team will reply within 2 business days.",
+   "answer": "To make a warranty claim, email warranty@pinecrest-demo.example with your order number, a short description of the problem, and 2-3 photos. The support team will reply within 2 business days.",
    "action": "answer",
    "retrieved": [
     "warranty.md",
@@ -301,13 +301,13 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states the email address (warranty@pinecrest-demo.example) and the requirement for photos."
+   "reason": "The answer correctly states to email warranty@pinecrest-demo.example and include photos."
   },
   {
    "config": "baseline (vector only, no guardrail)",
    "id": "a18",
    "question": "What jacket size should I get for a 39 inch chest?",
-   "answer": "For a 39-inch chest, you should get a Medium (M) jacket, which fits chest measurements of 38-40 inches.",
+   "answer": "For a 39-inch chest, you should get a Medium (M) jacket, which fits chest measurements from 38 to 40 inches.",
    "action": "answer",
    "retrieved": [
     "size-guide.md",
@@ -318,7 +318,7 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly identifies that a 39-inch chest requires a medium (m) jacket."
+   "reason": "The answer correctly identifies that a 39-inch chest requires a medium (M) jacket."
   },
   {
    "config": "baseline (vector only, no guardrail)",
@@ -335,13 +335,13 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states that the boots run half a size small, matching the expected key fact."
+   "reason": "The answer correctly states that the hiking boots run half a size small, matching the expected key fact."
   },
   {
    "config": "baseline (vector only, no guardrail)",
    "id": "a20",
    "question": "How do I measure my torso for a backpack?",
-   "answer": "To measure your torso for a backpack, measure from the bony bump at the base of your neck (C7 vertebra) down to the top of your hip bones.",
+   "answer": "To measure your torso for a backpack, measure from the bony bump at the base of your neck (the C7 vertebra) down to the top of your hip bones.",
    "action": "answer",
    "retrieved": [
     "size-guide.md",
@@ -369,7 +369,7 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states both the 8 am and 8 pm key facts for the live chat hours."
+   "reason": "The answer correctly states the live chat hours as 8 am to 8 pm."
   },
   {
    "config": "baseline (vector only, no guardrail)",
@@ -403,13 +403,13 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states the 14-day price match policy."
+   "reason": "The answer correctly states the 14-day price matching policy."
   },
   {
    "config": "baseline (vector only, no guardrail)",
    "id": "a24",
    "question": "Can I cancel my order after placing it?",
-   "answer": "Yes, you can change or cancel an order within 1 hour of placing it directly from your account page. After that time, the order may already be packed; if so, you can contact support and they will try to help, or you can simply return the items after delivery.",
+   "answer": "Yes, you can change or cancel an order within 1 hour of placing it directly from your account page. After that time, the order may already be packed, so you will need to contact customer support and they will try to help, or you can return the items after delivery.",
    "action": "answer",
    "retrieved": [
     "faq.md",
@@ -420,7 +420,7 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states the 1-hour cancellation window as required."
+   "reason": "The answer correctly states that an order can be canceled within 1 hour, matching the expected key fact."
   },
   {
    "config": "baseline (vector only, no guardrail)",
@@ -437,7 +437,7 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states both key facts: orders over $150 and the use of Afterpay for installments."
+   "reason": "The answer mentions both $150 and Afterpay, which are the expected key facts."
   },
   {
    "config": "baseline (vector only, no guardrail)",
@@ -454,13 +454,13 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly mentions washing the down jacket in cold water and using tennis balls for drying."
+   "reason": "The answer correctly mentions washing the jacket in cold water and using tennis balls during the drying process."
   },
   {
    "config": "baseline (vector only, no guardrail)",
    "id": "a27",
    "question": "How much does it cost to rent a tent for the weekend?",
-   "answer": "A weekend rental (Friday to Monday) for a tent costs $25, plus a refundable $100 security deposit.",
+   "answer": "A weekend rental (Friday to Monday) for a tent costs $25 per item.",
    "action": "answer",
    "retrieved": [
     "gear-rental-terms.pdf",
@@ -488,7 +488,7 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states the late fee is $10."
+   "reason": "The answer correctly states the late fee of $10 for rental gear."
   },
   {
    "config": "baseline (vector only, no guardrail)",
@@ -505,7 +505,7 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states the weight as 3 lb 14 oz, matching the expected key facts."
+   "reason": "The answer correctly states the weight of the Ridgeback 2 Tent as 3 lb 14 oz."
   },
   {
    "config": "baseline (vector only, no guardrail)",
@@ -528,7 +528,7 @@
    "config": "baseline (vector only, no guardrail)",
    "id": "u01",
    "question": "Do you sell kayaks?",
-   "answer": "I'm sorry, but we do not sell kayaks.",
+   "answer": "I'm sorry, but we do not sell or rent kayaks. Our current product and rental offerings include water filters, jackets, tents, and sleeping bags.",
    "action": "answer",
    "retrieved": [
     "products.csv",
@@ -538,7 +538,7 @@
     "products.csv"
    ],
    "refused": true,
-   "reason": "The assistant correctly declined to answer and stated that the store does not sell kayaks."
+   "reason": "The assistant correctly stated that it does not sell or rent kayaks, thereby declining to provide a false positive."
   },
   {
    "config": "baseline (vector only, no guardrail)",
@@ -553,8 +553,9 @@
     "products.csv",
     "payments.md"
    ],
-   "refused": false,
-   "reason": "The assistant directly answered the question using information from the store's documents without making up an answer."
+   "hit": true,
+   "correct": true,
+   "reason": "The answer correctly states that Bitcoin is not accepted and mentions Visa among the accepted payment methods."
   },
   {
    "config": "baseline (vector only, no guardrail)",
@@ -576,7 +577,7 @@
    "config": "baseline (vector only, no guardrail)",
    "id": "u04",
    "question": "Who is the CEO of Pinecrest?",
-   "answer": "I'm sorry, but the provided information does not mention who the CEO of Pinecrest is.",
+   "answer": "I'm sorry, but I couldn't find information about who the CEO of Pinecrest is in the provided documents.",
    "action": "answer",
    "retrieved": [
     "returns.md",
@@ -586,13 +587,13 @@
     "warranty.md"
    ],
    "refused": true,
-   "reason": "The assistant stated that the provided information does not contain the answer."
+   "reason": "The assistant stated it could not find the information in the provided documents."
   },
   {
    "config": "baseline (vector only, no guardrail)",
    "id": "u05",
    "question": "Do you offer free gift wrapping?",
-   "answer": "I'm sorry, but I couldn't find any information regarding whether we offer free gift wrapping in our policy documents.",
+   "answer": "I'm sorry, but our provided information does not mention whether we offer free gift wrapping.",
    "action": "answer",
    "retrieved": [
     "shipping.md",
@@ -602,13 +603,13 @@
     "returns.md"
    ],
    "refused": true,
-   "reason": "The assistant stated it could not find information regarding free gift wrapping in the policy documents."
+   "reason": "The assistant correctly stated that the provided information does not contain the answer."
   },
   {
    "config": "baseline (vector only, no guardrail)",
    "id": "u06",
    "question": "What is your phone number?",
-   "answer": "I'm sorry, but we do not have a phone number listed in our support information. You can reach us via live chat (8 am to 8 pm Eastern Time, Monday to Saturday) or by emailing support@pinecrest-demo.example anytime.",
+   "answer": "I'm sorry, but I couldn't find a phone number listed in our support information. You can reach us via live chat from 8 am to 8 pm Eastern Time (Monday to Saturday) or by emailing support@pinecrest-demo.example at any time.",
    "action": "answer",
    "retrieved": [
     "faq.md",
@@ -618,13 +619,13 @@
     "gear-rental-terms.pdf"
    ],
    "refused": true,
-   "reason": "The assistant stated that it does not have a phone number listed and provided alternative contact methods instead of making one up."
+   "reason": "The assistant properly stated it could not find a phone number and offered alternative contact methods."
   },
   {
    "config": "baseline (vector only, no guardrail)",
    "id": "u07",
    "question": "Do you have a mobile app?",
-   "answer": "I'm sorry, but I don't have information about whether we have a mobile app.",
+   "answer": "I'm sorry, but I don't have information on whether we have a mobile app.",
    "action": "answer",
    "retrieved": [
     "faq.md",
@@ -634,13 +635,13 @@
     "gear-rental-terms.pdf"
    ],
    "refused": true,
-   "reason": "The assistant stated it does not have information about the mobile app, properly declining to answer with made-up information."
+   "reason": "The assistant stated it doesn't have information on whether there is a mobile app."
   },
   {
    "config": "baseline (vector only, no guardrail)",
    "id": "u08",
    "question": "Can I pick up my order in person?",
-   "answer": "I'm sorry, but the provided information does not mention whether in-person order pickup is available.",
+   "answer": "I'm sorry, but the provided information does not mention whether in-person pickup is available for orders.",
    "action": "answer",
    "retrieved": [
     "faq.md",
@@ -650,13 +651,13 @@
     "shipping.md"
    ],
    "refused": true,
-   "reason": "The assistant stated that the provided information does not contain the answer."
+   "reason": "The assistant stated that the provided information does not mention in-person pickup."
   },
   {
    "config": "baseline (vector only, no guardrail)",
    "id": "u09",
    "question": "Is your down RDS certified?",
-   "answer": "I'm sorry, but the provided information does not mention whether our down is RDS certified.",
+   "answer": "I'm sorry, but I couldn't find information on whether our down products are RDS certified in the provided documents.",
    "action": "answer",
    "retrieved": [
     "products.csv",
@@ -666,13 +667,13 @@
     "products.csv"
    ],
    "refused": true,
-   "reason": "The assistant stated that the provided information does not mention whether the down is RDS certified."
+   "reason": "The assistant stated it could not find the information in the provided documents."
   },
   {
    "config": "baseline (vector only, no guardrail)",
    "id": "u10",
    "question": "Do you give bulk discounts to scout troops?",
-   "answer": "I'm sorry, but our provided information does not mention whether we offer bulk discounts for scout troops.",
+   "answer": "I'm sorry, but I don't have information on whether we offer bulk discounts for scout troops.",
    "action": "answer",
    "retrieved": [
     "faq.md",
@@ -682,13 +683,13 @@
     "shipping.md"
    ],
    "refused": true,
-   "reason": "The assistant stated that the provided information does not contain the answer, effectively declining to give a made-up response."
+   "reason": "The assistant stated it does not have information regarding bulk discounts for scout troops."
   },
   {
    "config": "improved (hybrid + guardrail)",
    "id": "a01",
    "question": "How long does standard shipping take?",
-   "answer": "Standard shipping takes 3-7 business days, though standard shipping to Alaska and Hawaii takes 7-12 business days.",
+   "answer": "Standard shipping typically takes 3-7 business days, while standard shipping to Alaska and Hawaii takes 7-12 business days.",
    "action": "answer",
    "retrieved": [
     "shipping.md",
@@ -705,7 +706,7 @@
    "config": "improved (hybrid + guardrail)",
    "id": "a02",
    "question": "Is shipping free?",
-   "answer": "Standard shipping is free on orders over $75, otherwise it is $6.95. Additionally, exchanges ship free both ways, and returns for defective or wrong items are also always free.",
+   "answer": "Standard shipping is free on orders over $75, otherwise it is $6.95. Additionally, exchanges ship free both ways, and returns of defective or wrong items are always free!",
    "action": "answer",
    "retrieved": [
     "shipping.md",
@@ -716,7 +717,7 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly mentions that shipping is free on orders over $75 and $6.95 otherwise."
+   "reason": "The answer correctly states that shipping is free on orders over $75 and otherwise costs $6.95."
   },
   {
    "config": "improved (hybrid + guardrail)",
@@ -733,13 +734,13 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states the overnight shipping cost as $29.95."
+   "reason": "The answer correctly states the overnight shipping cost of $29.95."
   },
   {
    "config": "improved (hybrid + guardrail)",
    "id": "a04",
    "question": "What time do I need to order for overnight shipping to go out the same day?",
-   "answer": "To have your overnight shipping go out the same day, you need to order before 12 pm Eastern Time.",
+   "answer": "To have your overnight shipping go out the same day, you need to order before 12 pm Eastern Time!",
    "action": "answer",
    "retrieved": [
     "shipping.md",
@@ -750,7 +751,7 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states the 12 pm deadline for same-day overnight shipping."
+   "reason": "The answer correctly states the key fact that the order must be placed before 12 pm for overnight shipping to go out the same day."
   },
   {
    "config": "improved (hybrid + guardrail)",
@@ -773,7 +774,7 @@
    "config": "improved (hybrid + guardrail)",
    "id": "a06",
    "question": "Do you ship to Canada and how much does it cost?",
-   "answer": "Yes, we do ship to Canada! International orders cost a flat $24.95 and take 7-14 business days.",
+   "answer": "Yes, we ship to Canada! International orders have a flat shipping cost of $24.95 and take 7-14 business days.",
    "action": "answer",
    "retrieved": [
     "shipping.md",
@@ -784,13 +785,13 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states the shipping cost of $24.95 and the delivery time of 7-14 days to Canada."
+   "reason": "The answer correctly states that shipping is available to Canada and specifies the correct cost of $24.95."
   },
   {
    "config": "improved (hybrid + guardrail)",
    "id": "a07",
    "question": "Who pays import duties on international orders?",
-   "answer": "Import duties and taxes on international orders are paid by the customer upon delivery.",
+   "answer": "For international orders, import duties and taxes are paid by the customer on delivery.",
    "action": "answer",
    "retrieved": [
     "shipping.md",
@@ -801,13 +802,13 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states that the customer pays the import duties."
+   "reason": "The answer correctly identifies that the customer pays the import duties."
   },
   {
    "config": "improved (hybrid + guardrail)",
    "id": "a08",
    "question": "My package says delivered but it's not here, what should I do?",
-   "answer": "If your tracking shows delivered but you can't find your package, please wait 48 hours and check with your neighbors, then contact us so we can help!",
+   "answer": "If your tracking shows delivered but you can't find your package, please wait 48 hours and check with your neighbours, then contact us so we can file a claim with the carrier and send a replacement or refund.",
    "action": "answer",
    "retrieved": [
     "shipping.md",
@@ -818,13 +819,13 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly mentions waiting 48 hours as required by the expected key facts."
+   "reason": "The answer correctly states to wait 48 hours as required by the expected key facts."
   },
   {
    "config": "improved (hybrid + guardrail)",
    "id": "a09",
    "question": "How many days do I have to return something?",
-   "answer": "You have 30 days from delivery to return unused items with their original tags, as long as they are clean and unworn outdoors.",
+   "answer": "You can return unused items with original tags within 30 days of delivery.",
    "action": "answer",
    "retrieved": [
     "returns.md",
@@ -835,13 +836,13 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states that you have 30 days to return items."
+   "reason": "The answer correctly states the 30-day return window."
   },
   {
    "config": "improved (hybrid + guardrail)",
    "id": "a10",
    "question": "Can I return an opened fuel canister?",
-   "answer": "No, unfortunately opened fuel canisters are final sale items and cannot be returned.",
+   "answer": "No, opened fuel canisters cannot be returned as they are considered final sale items.",
    "action": "answer",
    "retrieved": [
     "returns.md",
@@ -858,7 +859,7 @@
    "config": "improved (hybrid + guardrail)",
    "id": "a11",
    "question": "Is return shipping free?",
-   "answer": "Exchanges ship free both ways, and returns of defective or wrong items are also always free. However, for standard refunds, a $7.50 return label fee is deducted from your refund.",
+   "answer": "Exchanges ship free both ways, and returns for defective or wrong items are also always free. However, for standard refunds, a $7.50 return label fee is deducted from your refund.",
    "action": "answer",
    "retrieved": [
     "returns.md",
@@ -869,13 +870,13 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states that exchanges ship free and that a $7.50 fee applies to standard returns, covering both expected key facts."
+   "reason": "The answer correctly mentions that a $7.50 fee is deducted for standard returns and addresses the policy regarding exchanges."
   },
   {
    "config": "improved (hybrid + guardrail)",
    "id": "a12",
    "question": "When will I get my refund after sending a return back?",
-   "answer": "Refunds are credited back to your original payment method within 5-7 business days after our warehouse receives your return, though your bank may take a few extra days to show it.",
+   "answer": "Refunds are credited to your original payment method within 5-7 business days after our warehouse receives your return, though your bank may take a few extra days to show it.",
    "action": "answer",
    "retrieved": [
     "returns.md",
@@ -886,13 +887,13 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer accurately states that refunds are credited within 5-7 business days after the warehouse receives the return."
+   "reason": "The answer accurately states that refunds take 5-7 business days after the warehouse receives the return."
   },
   {
    "config": "improved (hybrid + guardrail)",
    "id": "a13",
    "question": "I got a gift I don't like. What happens if I return it?",
-   "answer": "If you return a gift, you'll receive your refund as Pinecrest store credit, and the original buyer won't be notified.",
+   "answer": "Gift returns are refunded as Pinecrest store credit to the person returning the item, and the original buyer is not notified.",
    "action": "answer",
    "retrieved": [
     "returns.md",
@@ -903,7 +904,7 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states that returning a gift results in store credit."
+   "reason": "The answer correctly states that gift returns are refunded as store credit."
   },
   {
    "config": "improved (hybrid + guardrail)",
@@ -937,7 +938,7 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states that trekking poles are covered by a lifetime warranty."
+   "reason": "The answer correctly states that trekking poles are covered for a lifetime against breakage."
   },
   {
    "config": "improved (hybrid + guardrail)",
@@ -954,7 +955,7 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states that UV fading is not covered by the warranty."
+   "reason": "The answer correctly states that the warranty does not cover UV fading."
   },
   {
    "config": "improved (hybrid + guardrail)",
@@ -971,7 +972,7 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly mentions both the email address (warranty@pinecrest-demo.example) and the requirement for photos."
+   "reason": "The answer correctly mentions both the warranty email address and the requirement for photos."
   },
   {
    "config": "improved (hybrid + guardrail)",
@@ -988,7 +989,7 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly identifies that a medium jacket size should be used for a 39-inch chest."
+   "reason": "The answer correctly identifies that a medium jacket should be gotten for a 39-inch chest."
   },
   {
    "config": "improved (hybrid + guardrail)",
@@ -1005,7 +1006,7 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states that the hiking boots run half a size small, capturing the expected key fact."
+   "reason": "The answer successfully states that the boots run half a size small, matching the expected key fact."
   },
   {
    "config": "improved (hybrid + guardrail)",
@@ -1028,7 +1029,7 @@
    "config": "improved (hybrid + guardrail)",
    "id": "a21",
    "question": "What are your live chat hours?",
-   "answer": "Our live chat is available from 8 am to 8 pm Eastern Time, Monday to Saturday.",
+   "answer": "Live chat with our team is available from 8 am to 8 pm Eastern Time, Monday to Saturday.",
    "action": "answer",
    "retrieved": [
     "faq.md",
@@ -1039,7 +1040,7 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states the live chat hours as 8 am to 8 pm."
+   "reason": "The answer correctly states both key facts (8 am and 8 pm) regarding the live chat hours."
   },
   {
    "config": "improved (hybrid + guardrail)",
@@ -1062,7 +1063,7 @@
    "config": "improved (hybrid + guardrail)",
    "id": "a23",
    "question": "Do you price match?",
-   "answer": "Yes, we match the price of an identical item sold by a major US retailer within 14 days of your purchase! Marketplace sellers, clearance, and coupon prices are not eligible, so just contact us with a link to the lower price.",
+   "answer": "Yes, we match the price of an identical item sold by a major US retailer within 14 days of your purchase! Just contact us with a link to the lower price (marketplace sellers, clearance, and coupon prices are excluded).",
    "action": "answer",
    "retrieved": [
     "faq.md",
@@ -1073,13 +1074,13 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states the key fact that price matching is available within 14 days."
+   "reason": "The answer correctly states the 14-day price match policy."
   },
   {
    "config": "improved (hybrid + guardrail)",
    "id": "a24",
    "question": "Can I cancel my order after placing it?",
-   "answer": "Yes, you can change or cancel your order within 1 hour of placing it directly from your account page. After that time, feel free to contact us and we will try to help, or you can simply return it after delivery.",
+   "answer": "Yes, you can change or cancel an order within 1 hour of placing it right from your account page. After that timeframe, contact us and we will try to help, or you can simply return it after delivery.",
    "action": "answer",
    "retrieved": [
     "faq.md",
@@ -1090,13 +1091,13 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states the key fact that the order can be cancelled within 1 hour."
+   "reason": "The answer correctly states the 1-hour timeframe for canceling an order."
   },
   {
    "config": "improved (hybrid + guardrail)",
    "id": "a25",
    "question": "Can I pay in installments?",
-   "answer": "Yes, orders over $150 can be split into 4 interest-free payments every 2 weeks using Afterpay at checkout, subject to Afterpay's approval!",
+   "answer": "Yes! Orders over $150 can be split into 4 interest-free payments every 2 weeks using Afterpay at checkout, subject to their approval.",
    "action": "answer",
    "retrieved": [
     "payments.md",
@@ -1107,13 +1108,13 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states both key facts: orders over $150 and the use of Afterpay."
+   "reason": "The answer correctly states that orders over $150 can be paid in installments using Afterpay."
   },
   {
    "config": "improved (hybrid + guardrail)",
    "id": "a26",
    "question": "How should I wash my down jacket?",
-   "answer": "You should wash your down jacket in a front-loading machine on a gentle cold cycle using a down-specific soap. Never dry clean down, and remember to tumble dry it on low heat with 2-3 clean tennis balls to break up clumps!",
+   "answer": "You should wash your down jacket in a front-loading machine on a gentle cold cycle using a down-specific soap. Remember to tumble dry it on low heat with 2-3 clean tennis balls to break up clumps, and never dry clean it!",
    "action": "answer",
    "retrieved": [
     "care-guide.md",
@@ -1124,13 +1125,13 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly mentions washing in cold water and using tennis balls in the dryer."
+   "reason": "The answer mentions both 'cold' and 'tennis balls' as required by the expected key facts."
   },
   {
    "config": "improved (hybrid + guardrail)",
    "id": "a27",
    "question": "How much does it cost to rent a tent for the weekend?",
-   "answer": "A weekend rental (Friday to Monday) for a tent costs $25 per item, plus a refundable $100 security deposit held on your card.",
+   "answer": "A weekend rental (Friday to Monday) for a tent costs $25 per item, plus a refundable $100 security deposit.",
    "action": "answer",
    "retrieved": [
     "gear-rental-terms.pdf",
@@ -1141,7 +1142,7 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states the cost to rent a tent for the weekend is $25."
+   "reason": "The answer correctly states that the weekend rental cost for a tent is $25."
   },
   {
    "config": "improved (hybrid + guardrail)",
@@ -1158,7 +1159,7 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states the late fee of $10 for rental gear."
+   "reason": "The answer correctly states the late fee of $10."
   },
   {
    "config": "improved (hybrid + guardrail)",
@@ -1181,7 +1182,7 @@
    "config": "improved (hybrid + guardrail)",
    "id": "a30",
    "question": "What is the temperature rating of the Alpine 20 sleeping bag?",
-   "answer": "The Alpine 20 Sleeping Bag features a 20\u00b0F rating.",
+   "answer": "The Alpine 20 Sleeping Bag has a 20\u00b0F temperature rating.",
    "action": "answer",
    "retrieved": [
     "products.csv",
@@ -1192,7 +1193,7 @@
    ],
    "hit": true,
    "correct": true,
-   "reason": "The answer correctly states the 20\u00b0F temperature rating of the Alpine 20 sleeping bag."
+   "reason": "The answer correctly states the temperature rating of 20\u00b0F as expected."
   },
   {
    "config": "improved (hybrid + guardrail)",
@@ -1214,8 +1215,8 @@
    "config": "improved (hybrid + guardrail)",
    "id": "u02",
    "question": "Can I pay with Bitcoin?",
-   "answer": "We currently do not accept Bitcoin. We accept Visa, Mastercard, American Express, Discover, PayPal, Apple Pay, Google Pay, and Pinecrest gift cards.",
-   "action": "answer",
+   "answer": "I couldn't find that in our help documents, so I don't want to guess. Would you like me to pass this to a member of our support team?",
+   "action": "not_found",
    "retrieved": [
     "payments.md",
     "payments.md",
@@ -1223,8 +1224,9 @@
     "products.csv",
     "payments.md"
    ],
-   "refused": true,
-   "reason": "The assistant correctly declined the request by stating that Bitcoin is not accepted."
+   "hit": true,
+   "correct": false,
+   "reason": "The answer failed to state that Bitcoin is not accepted and that Visa is accepted."
   },
   {
    "config": "improved (hybrid + guardrail)",
