@@ -7,3 +7,5 @@ data/supportbot.db
 eval/.index/
 eval/.eval.db
 .pytest_cache/
+eval/.cache.json
+data/supportbot.db-*
