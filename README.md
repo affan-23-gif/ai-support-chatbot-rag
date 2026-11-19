@@ -4,7 +4,7 @@ A support chatbot for an online store that answers **only from the store's own d
 
 > **Demo project.** "Pinecrest Trail Co." is a fictional outdoor-gear store. All documents, products and orders in `data/` are made up for this demo.
 
-**Live demo:** _add your Render URL here_ · open `/store` to see the bot as a chat widget on a store page. The free server sleeps when idle, so the first load can take about a minute.
+**Live demo:** _(https://supportbot-0zhu.onrender.com/store)_ · open `/store` to see the bot as a chat widget on a store page. The free server sleeps when idle, so the first load can take about a minute.
 
 ![SupportBot architecture](docs/cover.png)
 
