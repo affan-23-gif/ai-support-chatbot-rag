@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pinecrest Trail Co. — Demo store</title>
+<link rel="icon" href="data:,">
+<style>
+  :root { --green:#1f5d43; --green-dark:#163f2f; --green-soft:#e7f0eb; --ink:#1d2421; --muted:#66706b; --line:#dfe5e1; --bg:#f6f7f5; --warn:#8a5a00; --warn-soft:#fff4dc; --sand:#efe9dd; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif; color:var(--ink); background:var(--bg); }
+  .top { background:var(--green-dark); color:#fff; }
+  .top .in { max-width:1180px; margin:0 auto; padding:14px 24px; display:flex; align-items:center; gap:28px; }
+  .logo { font-weight:700; font-size:18px; letter-spacing:.2px; display:flex; align-items:center; gap:10px; }
+  .logo svg { width:26px; height:26px; }
+  nav { display:flex; gap:20px; font-size:14px; opacity:.9; }
+  .pill { margin-left:auto; font-size:12px; font-weight:600; background:rgba(255,255,255,.14); border-radius:999px; padding:4px 10px; }
+  .hero { background:linear-gradient(120deg, #2b6d50, #1f5d43 55%, #18493a); color:#fff; }
+  .hero .in { max-width:1180px; margin:0 auto; padding:44px 24px 40px; }
+  .hero h1 { margin:0; font-size:38px; letter-spacing:-.5px; }
+  .hero p { margin:8px 0 0; font-size:17px; opacity:.88; max-width:620px; }
+  main { max-width:1180px; margin:0 auto; padding:26px 24px 80px; }
+  .filters { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+  .filters button { border:1px solid var(--line); background:#fff; border-radius:999px; padding:6px 14px; font-size:13px; cursor:pointer; color:var(--ink); }
+  .filters button.on { background:var(--green); border-color:var(--green); color:#fff; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:18px; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:14px; overflow:hidden; display:flex; flex-direction:column; }
+  .art { height:132px; background:var(--sand); display:flex; align-items:center; justify-content:center; color:var(--green); }
+  .art svg { width:64px; height:64px; }
+  .body { padding:14px 16px 16px; display:flex; flex-direction:column; gap:4px; flex:1; }
+  .cat { font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+  .name { font-weight:650; font-size:16px; }
+  .feat { font-size:13px; color:var(--muted); }
+  .row { display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:8px; }
+  .price { font-weight:700; font-size:17px; }
+  .stock { font-size:12px; font-weight:600; color:var(--green); }
+  .stock.out { color:var(--warn); }
+
+  /* chat widget */
+  .launcher { position:fixed; right:24px; bottom:24px; background:var(--green); color:#fff; border:0; border-radius:999px; padding:13px 20px; font-size:15px; font-weight:600; cursor:pointer; box-shadow:0 8px 24px rgba(22,63,47,.3); display:flex; gap:8px; align-items:center; }
+  .panel { position:fixed; right:24px; bottom:24px; width:390px; height:600px; max-height:calc(100vh - 48px); background:#fff; border-radius:16px; box-shadow:0 18px 48px rgba(22,63,47,.28); display:none; flex-direction:column; overflow:hidden; border:1px solid var(--line); }
+  .panel.open { display:flex; }
+  .ph { background:var(--green); color:#fff; padding:12px 14px 12px 16px; display:flex; align-items:center; gap:10px; }
+  .ph b { display:block; font-size:15px; }
+  .ph span { font-size:12px; opacity:.85; }
+  .ph button { margin-left:auto; background:transparent; border:0; color:#fff; font-size:22px; cursor:pointer; line-height:1; }
+  #log { flex:1; overflow-y:auto; padding:14px 12px; background:var(--bg); }
+  .msg { width:fit-content; max-width:88%; margin:0 0 10px; padding:9px 12px; border-radius:12px; white-space:pre-wrap; font-size:14px; }
+  .user { margin-left:auto; background:var(--green); color:#fff; border-bottom-right-radius:4px; }
+  .bot { background:#fff; border:1px solid var(--line); border-bottom-left-radius:4px; }
+  .bot.not_found, .bot.order_not_verified, .bot.unavailable { background:var(--warn-soft); border-color:#f0d9a8; }
+  .badge { display:inline-block; font-size:10.5px; font-weight:700; letter-spacing:.03em; text-transform:uppercase; color:var(--green); background:var(--green-soft); border-radius:999px; padding:2px 8px; margin-bottom:4px; }
+  .not_found .badge, .order_not_verified .badge, .unavailable .badge { color:var(--warn); background:#fbe7bd; }
+  .cites { margin-top:6px; border-top:1px solid var(--line); padding-top:4px; }
+  details { font-size:12px; color:var(--muted); margin-top:3px; }
+  summary { cursor:pointer; color:var(--green); }
+  details p { margin:4px 0 0; padding:6px 8px; background:var(--bg); border-radius:6px; white-space:pre-wrap; }
+  .typing { color:var(--muted); font-style:italic; }
+  #suggest { display:flex; gap:6px; flex-wrap:wrap; padding:8px 12px 0; }
+  #suggest button { border:1px solid var(--line); background:#fff; border-radius:999px; padding:4px 10px; font-size:12px; cursor:pointer; color:var(--ink); }
+  #f { display:flex; gap:6px; padding:10px 12px 12px; }
+  #q { flex:1; padding:9px 12px; border:1px solid var(--line); border-radius:10px; font-size:14px; }
+  #q:focus { outline:2px solid var(--green); border-color:transparent; }
+  #send { background:var(--green); color:#fff; border:0; border-radius:10px; padding:0 14px; cursor:pointer; }
+  #send:disabled { opacity:.5; }
+  @media (max-width:520px) { .panel { right:0; bottom:0; width:100%; height:100%; max-height:none; border-radius:0; } }
+</style>
+</head>
+<body>
+<div class="top"><div class="in">
+  <div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3 4 15h5l-3 5h12l-3-5h5z"/></svg>Pinecrest Trail Co.</div>
+  <nav><span>Shop</span><span>Rentals</span><span>Help</span></nav>
+  <span class="pill">Demo store · fictional products</span>
+</div></div>
+<div class="hero"><div class="in">
+  <h1>Gear for every trail</h1>
+  <p>Ask our support assistant anything about shipping, returns, sizing or your order. It answers from our help docs and shows you the source.</p>
+</div></div>
+<main>
+  <div class="filters" id="filters"></div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<button class="launcher" id="launcher" aria-label="Open support chat">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H8l-4 4z"/></svg>Need help?
+</button>
+<section class="panel" id="panel" aria-label="Support chat">
+  <div class="ph"><div><b>Pinecrest Support</b><span>Answers only from our help docs</span></div><button id="close" aria-label="Close chat">×</button></div>
+  <div id="log" aria-live="polite"></div>
+  <div id="suggest">
+    <button>Can I return worn boots?</button>
+    <button>Where is my order?</button>
+    <button>Do you sell kayaks?</button>
+  </div>
+  <form id="f"><input id="q" placeholder="Type your question…" autocomplete="off" maxlength="2000"><button id="send">Send</button></form>
+</section>
+
+<script src="/static/chat.js"></script>
+<script>
+const ICONS = {
+  Tents: '<path d="M32 10 6 54h52z"/><path d="M32 10v44M24 54l8-16 8 16"/>',
+  Backpacks: '<rect x="16" y="16" width="32" height="40" rx="8"/><path d="M24 16v-4a8 8 0 0 1 16 0v4M22 34h20v12H22z"/>',
+  Jackets: '<path d="M22 10 10 18l4 12 6-3v27h24V27l6 3 4-12-12-8-5 6h-10z"/><path d="M32 16v38"/>',
+  Footwear: '<path d="M14 12h14v22l20 8a6 6 0 0 1 4 6v4H10V16z"/><path d="M10 46h42"/>',
+  Sleeping: '<path d="M46 40A20 20 0 1 1 30 12a16 16 0 0 0 16 28z"/>',
+  Accessories: '<path d="M22 8 18 56M42 8l4 48M16 20h10M38 20h10"/>',
+  Cooking: '<path d="M32 8c8 10 12 16 12 24a12 12 0 0 1-24 0c0-6 4-10 6-14 2 6 6 6 6 2s-2-8 0-12z"/><path d="M18 56h28"/>',
+  Water: '<path d="M32 8c10 14 16 22 16 30a16 16 0 0 1-32 0c0-8 6-16 16-30z"/>',
+  Lighting: '<circle cx="32" cy="32" r="10"/><path d="M32 8v8M32 48v8M8 32h8M48 32h8M15 15l6 6M43 43l6 6M15 49l6-6M43 21l6-6"/>',
+};
+const icon = c => `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">${ICONS[c] || ICONS.Accessories}</svg>`;
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; };
+
+let products = [], active = 'All';
+function render() {
+  const grid = document.getElementById('grid');
+  grid.replaceChildren(...products.filter(p => active === 'All' || p.category === active).map(p => {
+    const card = el('div', 'card'), art = el('div', 'art'), body = el('div', 'body'), row = el('div', 'row');
+    art.innerHTML = icon(p.category);  // static icon markup from the table above, never product data
+    row.append(el('span', 'price', '$' + p.price), el('span', 'stock' + (p.in_stock ? '' : ' out'), p.in_stock ? 'In stock' : 'Out of stock'));
+    body.append(el('span', 'cat', p.category), el('span', 'name', p.name), el('span', 'feat', p.features), row);
+    card.append(art, body); return card;
+  }));
+  const cats = ['All', ...new Set(products.map(p => p.category))];
+  document.getElementById('filters').replaceChildren(...cats.map(c => {
+    const b = el('button', c === active ? 'on' : '', c); b.onclick = () => { active = c; render(); }; return b;
+  }));
+}
+fetch('/api/products').then(r => r.json()).then(list => { products = list; render(); });
+
+const panel = document.getElementById('panel'), launcher = document.getElementById('launcher');
+const open = () => { panel.classList.add('open'); launcher.style.display = 'none'; document.getElementById('q').focus(); };
+launcher.onclick = open;
+document.getElementById('close').onclick = () => { panel.classList.remove('open'); launcher.style.display = ''; };
+const chat = SupportChat.mount({ log: document.getElementById('log'), form: document.getElementById('f'), input: document.getElementById('q'),
+                                 send: document.getElementById('send'), suggest: document.getElementById('suggest') });
+if (new URLSearchParams(location.search).get('chat') === 'open') open();
+</script>
+</body>
+</html>

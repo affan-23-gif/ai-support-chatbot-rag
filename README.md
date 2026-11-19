@@ -4,6 +4,10 @@ A support chatbot for an online store that answers **only from the store's own d
 
 > **Demo project.** "Pinecrest Trail Co." is a fictional outdoor-gear store. All documents, products and orders in `data/` are made up for this demo.
 
+**Live demo:** _add your Render URL here_ · open `/store` to see the bot as a chat widget on a store page. The free server sleeps when idle, so the first load can take about a minute.
+
+![SupportBot architecture](docs/cover.png)
+
 <!-- Add a 20-second GIF of the chat here: docs/demo.gif -->
 
 ## What it does
@@ -65,7 +69,7 @@ cp .env.example .env          # then open .env and paste your GEMINI_API_KEY
 uvicorn app.main:app --reload
 ```
 
-Open http://localhost:8000 for the chat. For the admin page (upload documents, see handoff tickets), set `ADMIN_PASSWORD` in `.env`, restart, and open http://localhost:8000/admin with user name `admin`. The first start builds the search index from `data/docs/`.
+Open http://localhost:8000/store for the demo store with the chat widget, or http://localhost:8000 for a full-page chat. For the admin page (upload documents, see handoff tickets), set `ADMIN_PASSWORD` in `.env`, restart, and open http://localhost:8000/admin with user name `admin`. The first start builds the search index from `data/docs/`.
 
 Try it without a key: `LLM_PROVIDER=fake uvicorn app.main:app`
 
@@ -77,6 +81,15 @@ docker run -p 8000:8000 --env-file .env -v supportbot-data:/app/data supportbot
 ```
 
 The volume keeps the index, tickets, chat sessions and uploaded documents across restarts.
+
+## Deploy for free on Render
+
+1. Push the repo to GitHub.
+2. On [render.com](https://render.com): **New → Blueprint**, pick the repo. Render reads `render.yaml`.
+3. Paste `GEMINI_API_KEY` and `ADMIN_PASSWORD` when asked, then deploy.
+4. Open `https://<your-service>.onrender.com/store`.
+
+The free plan is fine for a portfolio demo: the service sleeps after 15 minutes without traffic and takes about a minute to wake, and its disk is not persistent (the index is rebuilt on start; tickets and sessions reset on redeploy). For a real client, use a paid instance with a persistent disk.
 
 ## Run the tests and the evaluation
 
@@ -101,6 +114,7 @@ Upload `.md`, `.txt`, `.pdf` or `.csv` files on the `/admin` page, or drop them 
 | --- | --- | --- | --- |
 | POST | `/api/chat` | none (rate limited) | `{"session_id": "...", "message": "..."}` → answer, action, citations, ticket id |
 | GET | `/api/health` | none | Status and number of indexed chunks |
+| GET | `/api/products` | none | Product list for the demo store page |
 | POST | `/admin/api/upload` | admin | Upload a document and re-index |
 | POST | `/admin/api/ingest` | admin | Re-index everything in `data/docs/` |
 | GET | `/admin/api/documents` | admin | List indexed documents |
@@ -142,10 +156,10 @@ app/
   ratelimit.py   per-IP sliding-window rate limiter
   notify.py      optional webhook (Slack) for new tickets
   main.py        FastAPI endpoints, admin auth, request logging
-static/          chat page and admin page
+static/          store demo with chat widget, full-page chat, admin page
 data/docs/       demo store documents (markdown, PDF, CSV)
 eval/            40-question test set and evaluation script
-tests/           offline pytest suite (23 tests)
+tests/           offline pytest suite (24 tests)
 ```
 
 ## Configuration

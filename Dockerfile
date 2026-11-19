@@ -15,8 +15,9 @@ USER app
 VOLUME ["/app/data"]
 EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s \
-  CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=4)"
+  CMD python -c "import os, urllib.request; urllib.request.urlopen(f'http://127.0.0.1:{os.environ.get(\"PORT\", \"8000\")}/api/health', timeout=4)"
 
 # One worker: the local Qdrant index, SQLite and the rate limiter live in this process.
 # --proxy-headers so X-Forwarded-For works behind Render/Railway/nginx (also set TRUST_PROXY=true).
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1", "--proxy-headers", "--forwarded-allow-ips", "*"]
+# Hosting platforms (Render, Railway, Cloud Run) pass the port in $PORT; locally it is 8000.
+CMD ["sh", "-c", "exec uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000} --workers 1 --proxy-headers --forwarded-allow-ips '*'"]

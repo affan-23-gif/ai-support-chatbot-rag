@@ -228,3 +228,10 @@ def test_upload_size_limit(client, monkeypatch):
     big = b"# Big\n\n" + b"a" * (1024 * 1024 + 10)
     r = client.post("/admin/api/upload", auth=ADMIN, files={"file": ("big.md", big, "text/markdown")})
     assert r.status_code == 413 and not (settings.docs_dir / "big.md").exists()
+
+
+def test_store_page_and_products(client):
+    assert client.get("/store").status_code == 200
+    items = client.get("/api/products").json()
+    assert len(items) == 17 and {"name", "price", "category", "in_stock"} <= items[0].keys()
+    assert any(not p["in_stock"] for p in items)

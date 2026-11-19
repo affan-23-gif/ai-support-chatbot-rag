@@ -17,9 +17,9 @@
   .msg { width:fit-content; max-width:85%; margin:0 0 14px; padding:10px 14px; border-radius:14px; white-space:pre-wrap; }
   .user { margin-left:auto; background:var(--green); color:#fff; border-bottom-right-radius:4px; }
   .bot { background:#fff; border:1px solid var(--line); border-bottom-left-radius:4px; }
-  .bot.not_found, .bot.order_not_verified { background:var(--warn-soft); border-color:#f0d9a8; }
+  .bot.not_found, .bot.order_not_verified, .bot.unavailable { background:var(--warn-soft); border-color:#f0d9a8; }
   .badge { display:inline-block; font-size:11px; font-weight:600; letter-spacing:.02em; text-transform:uppercase; color:var(--green); background:var(--green-soft); border-radius:999px; padding:2px 8px; margin-bottom:6px; }
-  .not_found .badge, .order_not_verified .badge { color:var(--warn); background:#fbe7bd; }
+  .not_found .badge, .order_not_verified .badge, .unavailable .badge { color:var(--warn); background:#fbe7bd; }
   .cites { margin-top:8px; border-top:1px solid var(--line); padding-top:6px; }
   details { font-size:13px; color:var(--muted); margin-top:4px; }
   summary { cursor:pointer; color:var(--green); }
@@ -49,54 +49,10 @@
   </div>
   <form id="f"><input id="q" placeholder="Ask about orders, shipping, returns, sizing…" autocomplete="off" maxlength="2000"><button id="send">Send</button></form>
 </main>
+<script src="/static/chat.js"></script>
 <script>
-const log = document.getElementById('log'), q = document.getElementById('q'), send = document.getElementById('send');
-const session = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random())).slice(0, 32);
-const LABELS = { not_found:'Not in our docs', handoff:'Passed to our team', order_status:'Order status', ask_order_details:'Order lookup', order_not_verified:'Not verified' };
-
-function bubble(cls) { const d = document.createElement('div'); d.className = 'msg ' + cls; log.appendChild(d); log.scrollTop = log.scrollHeight; return d; }
-
-// Render **bold** safely: only text nodes, never innerHTML.
-function setText(el, text) {
-  text.split(/(\*\*[^*]+\*\*)/).forEach(part => {
-    if (part.startsWith('**') && part.endsWith('**')) { const b = document.createElement('strong'); b.textContent = part.slice(2, -2); el.appendChild(b); }
-    else el.appendChild(document.createTextNode(part));
-  });
-}
-
-function botMessage(r) {
-  const d = bubble('bot ' + r.action);
-  if (LABELS[r.action]) { const b = document.createElement('div'); b.className = 'badge'; b.textContent = LABELS[r.action] + (r.ticket_id ? ' · #' + r.ticket_id : ''); d.appendChild(b); d.appendChild(document.createElement('br')); }
-  setText(d, r.answer);
-  if (r.citations && r.citations.length) {
-    const c = document.createElement('div'); c.className = 'cites';
-    r.citations.forEach(ct => {
-      const det = document.createElement('details'), s = document.createElement('summary'), p = document.createElement('p');
-      s.textContent = `Source [${ct.n}]: ${ct.source}` + (ct.page ? ` · page ${ct.page}` : (ct.section ? ` · ${ct.section.split(' › ').pop()}` : ''));
-      p.textContent = ct.snippet + (ct.snippet.length >= 220 ? '…' : '');
-      det.append(s, p); c.appendChild(det);
-    });
-    d.appendChild(c);
-  }
-  log.scrollTop = log.scrollHeight;
-}
-
-async function ask(text) {
-  if (!text.trim()) return;
-  setText(bubble('user'), text); q.value = ''; send.disabled = true;
-  const t = bubble('bot typing'); t.textContent = 'Checking our help docs…';
-  try {
-    const res = await fetch('/api/chat', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ session_id: session, message: text }) });
-    t.remove();
-    if (!res.ok) { const e = await res.json().catch(() => ({})); botMessage({ answer: e.detail || 'Something went wrong. Please try again.', action:'not_found', citations:[] }); return; }
-    botMessage(await res.json());
-  } catch { t.remove(); botMessage({ answer:'Connection problem. Please try again.', action:'not_found', citations:[] }); }
-  finally { send.disabled = false; q.focus(); }
-}
-
-document.getElementById('f').addEventListener('submit', e => { e.preventDefault(); ask(q.value); });
-document.querySelectorAll('#suggest button').forEach(b => b.addEventListener('click', () => ask(b.textContent)));
-botMessage({ answer:"Hi! I'm the Pinecrest support assistant. Ask me about shipping, returns, sizing, rentals or your order.", action:'answer', citations:[] });
+SupportChat.mount({ log: document.getElementById('log'), form: document.getElementById('f'), input: document.getElementById('q'),
+                    send: document.getElementById('send'), suggest: document.getElementById('suggest') });
 </script>
 </body>
 </html>

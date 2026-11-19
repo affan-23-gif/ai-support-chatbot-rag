@@ -1,6 +1,7 @@
 """FastAPI app: chat API, admin API (password protected), and the web pages."""
 from __future__ import annotations
 
+import csv
 import logging
 import re
 import secrets
@@ -114,6 +115,23 @@ class ChatIn(BaseModel):
 @app.get("/")
 def chat_page():
     return FileResponse(STATIC / "index.html")
+
+
+@app.get("/store")
+def store_page():
+    return FileResponse(STATIC / "store.html")
+
+
+@app.get("/api/products")
+def products():
+    """Product list for the demo store page, read from the same CSV the bot answers from."""
+    path = settings.docs_dir / "products.csv"
+    if not path.exists():
+        return []
+    with path.open(newline="", encoding="utf-8") as f:
+        return [{"sku": r.get("sku", ""), "name": r.get("name", ""), "category": r.get("category", ""),
+                 "price": r.get("price_usd", ""), "features": r.get("key_features", ""),
+                 "in_stock": r.get("in_stock", "").strip().lower() == "yes"} for r in csv.DictReader(f)]
 
 
 @app.get("/api/health")

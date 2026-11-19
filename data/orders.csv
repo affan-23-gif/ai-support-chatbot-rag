@@ -1,8 +1,8 @@
 order_id,email,status,items,carrier,tracking,eta
 PC-10421,maya.r@example.com,Shipped,Ridgeback 2 Tent,UPS,1Z999AA10123456784,Nov 21
 PC-10422,jordan.k@example.com,Processing,Summit Down Jacket (M),,,Ships in 1-2 business days
-PC-10423,sam.t@example.com,Delivered,Trailhead Mid Boot (10.5 wide),USPS,9400100000000000000001,Delivered Nov 14
-PC-10424,lee.w@example.com,Out for delivery,Switchback 45 Backpack; Beacon 400 Headlamp,FedEx,771234567890,Today by 8 pm
+PC-10423,sam.t@example.com,Delivered,Granite Mid Boot (10.5 wide),USPS,9400100000000000000001,Delivered Nov 14
+PC-10424,lee.w@example.com,Out for delivery,Switchback 45 Backpack; Lumen 350 Headlamp,FedEx,771234567890,Today by 8 pm
 PC-10425,priya.n@example.com,Cancelled,Jetflame Stove,,,
 PC-10426,alex.d@example.com,Shipped,Alpine 20 Sleeping Bag,UPS,1Z999AA10123456785,Nov 22
 PC-10427,chris.b@example.com,Return received,Stormline Rain Shell (L),,,Refund in 5-7 business days

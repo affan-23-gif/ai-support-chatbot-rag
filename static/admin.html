@@ -37,9 +37,9 @@
 <script>
 const el = (tag, text) => { const e = document.createElement(tag); if (text !== undefined) e.textContent = text; return e; };
 async function load() {
-  const docs = await (await fetch('/api/documents')).json();
+  const docs = await (await fetch('/admin/api/documents')).json();
   const ul = document.getElementById('docs'); ul.replaceChildren(...docs.map(d => el('li', d)));
-  const tickets = await (await fetch('/api/tickets')).json();
+  const tickets = await (await fetch('/admin/api/tickets')).json();
   const tb = document.getElementById('tickets');
   tb.replaceChildren(...tickets.map(t => {
     const tr = el('tr'); tr.append(el('td', t.id), el('td', t.created_at.replace('T', ' ').slice(0, 16)), el('td', t.reason));
@@ -54,7 +54,7 @@ document.getElementById('up').addEventListener('submit', async e => {
   if (!f) return;
   st.textContent = 'Uploading and re-indexing…';
   const fd = new FormData(); fd.append('file', f);
-  const res = await fetch('/api/upload', { method:'POST', body: fd });
+  const res = await fetch('/admin/api/upload', { method:'POST', body: fd });
   const body = await res.json();
   st.textContent = res.ok ? `Saved ${body.saved}. ${body.chunks} chunks indexed.` : body.detail;
   load();

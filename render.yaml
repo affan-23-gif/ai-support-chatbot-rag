@@ -1,0 +1,21 @@
+# Render Blueprint: Dashboard → New → Blueprint → pick this repo.
+# Free plan: the service sleeps after 15 min without traffic and takes about a minute to wake.
+# Its disk is not persistent: the index is rebuilt on each start, tickets/sessions reset on redeploy.
+services:
+  - type: web
+    name: supportbot
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false        # you paste it in the dashboard; never commit it
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: TRUST_PROXY
+        value: "true"
+      - key: CHAT_RATE_LIMIT
+        value: "10"
+      - key: GEMINI_RPM
+        value: "12"
