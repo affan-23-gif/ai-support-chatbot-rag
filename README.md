@@ -22,14 +22,18 @@ A support chatbot for an online store that answers **only from the store's own d
 
 ## Results
 
-Measured with `eval/run_eval.py` on 40 questions (30 answerable from the docs, 10 that are not).
+Measured with `eval/run_eval.py` on 19 Nov 2026, with `gemini-3.5-flash-lite` answering and grading: 58 hand-written questions. 43 are answerable from the docs, including 12 harder ones (SKU lookups, arithmetic, paraphrased questions). 15 are not answerable, including 6 "trap" questions that sit close to real content.
 
 | Pipeline | Retrieval hit@5 | Correct answers | Correct refusals | Overall |
 | --- | --- | --- | --- | --- |
-| Baseline: vector search only, no guardrail | _run eval_ | _run eval_ | _run eval_ | _run eval_ |
-| SupportBot: hybrid search + guardrail | _run eval_ | _run eval_ | _run eval_ | _run eval_ |
+| Baseline: vector search only, no guardrail | 43/43 | 43/43 | 15/15 | 58/58 |
+| SupportBot: hybrid search + guardrail | 43/43 | 43/43 | 15/15 | 58/58 |
 
-<!-- Replace the cells above with the numbers from eval/results.md after running the eval with Gemini. -->
+What this shows:
+
+- **Both pipelines are fully accurate on this set.** Given good passages, Gemini already stays grounded, so this test set does not separate the two. The guardrail is still worth having: it is enforced in code, not only in the prompt, and it skips the model call when nothing relevant is found.
+- **The harness caught real problems during development.** An early guardrail was too strict and refused "Can I pay with Bitcoin?" even though the docs list every accepted payment method. It was fixed by allowing answers from complete lists. Two badly written test questions were also found and corrected.
+- **Limits.** 58 questions is a small set, this is a single run, and the same model answers and grades. Next steps: a larger set built from real customer questions, a separate judge model, and several runs per change.
 
 ## How it works
 
@@ -169,19 +173,3 @@ All settings live in `.env` (see `.env.example`): `CHAT_MODEL`, `EMBEDDING_MODEL
 ## Tech stack
 
 Python · FastAPI · Google Gemini API (chat + embeddings) · Qdrant (local mode) · rank-bm25 · SQLite · pypdf · Docker · pytest
-
-
-## Results
-
-Measured with `eval/run_eval.py` on 19 Nov 2026, with `gemini-3.5-flash-lite` answering and grading: 58 hand-written questions. 43 are answerable from the docs, including 12 harder ones (SKU lookups, arithmetic, paraphrased questions). 15 are not answerable, including 6 "trap" questions that sit close to real content.
-
-| Pipeline | Retrieval hit@5 | Correct answers | Correct refusals | Overall |
-| --- | --- | --- | --- | --- |
-| Baseline: vector search only, no guardrail | 43/43 | 43/43 | 15/15 | 58/58 |
-| SupportBot: hybrid search + guardrail | 43/43 | 43/43 | 15/15 | 58/58 |
-
-What this shows:
-
-- **Both pipelines are fully accurate on this set.** Given good passages, Gemini already stays grounded, so this test set does not separate the two. The guardrail is still worth having: it is enforced in code, not only in the prompt, and it skips the model call when nothing relevant is found.
-- **The harness caught real problems during development.** An early guardrail was too strict and refused "Can I pay with Bitcoin?" even though the docs list every accepted payment method. It was fixed by allowing answers from complete lists. Two badly written test questions were also found and corrected.
-- **Limits.** 58 questions is a small set, this is a single run, and the same model answers and grades. Next steps: a larger set built from real customer questions, a separate judge model, and several runs per change.
