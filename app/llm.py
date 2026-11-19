@@ -25,7 +25,11 @@ log = logging.getLogger("supportbot.llm")
 
 class LLM(Protocol):
     def embed(self, texts: list[str], task: str = "document") -> list[list[float]]: ...
-    def generate_json(self, system: str, prompt: str) -> dict: ...
+    def generate_json(self, system: str, prompt: str, model: str | None = None) -> dict: ...
+
+
+class DailyQuotaExceeded(RuntimeError):
+    """The free tier's per-day request limit is used up. Retrying today won't help."""
 
 
 def _parse_json(text: str) -> dict:
@@ -52,26 +56,39 @@ class GeminiLLM:
         self.embedding_model = embedding_model
         self.dim = dim
         self.min_interval = 60.0 / rpm if rpm > 0 else 0.0
-        self._next_slot = 0.0
+        self._next_slot: dict[str, float] = {}  # quotas are per model, so pace each model separately
         self._lock = threading.Lock()
 
-    def _throttle(self) -> None:
+    def _throttle(self, model: str) -> None:
         """Space out generate calls so we stay under the requests-per-minute quota."""
         with self._lock:
-            wait = self._next_slot - time.monotonic()
+            slot = self._next_slot.get(model, 0.0)
+            wait = slot - time.monotonic()
             if wait > 0:
                 time.sleep(wait)
-            self._next_slot = max(self._next_slot, time.monotonic()) + self.min_interval
+            self._next_slot[model] = max(slot, time.monotonic()) + self.min_interval
 
     def _retry(self, fn, attempts: int = 5):
-        """Retry transient errors. On 429 (quota) wait as long as the API asks; else back off."""
+        """Retry transient errors.
+
+        - Daily quota used up: stop at once with a clear message (waiting won't help today).
+        - Per-minute quota (429): wait as long as the API asks, up to 65 s.
+        - Other errors (503 overloaded, timeouts): exponential backoff.
+        """
         for i in range(attempts):
             try:
                 return fn()
             except Exception as exc:  # the SDK raises several error types
+                msg = str(exc)
+                if "PerDay" in msg or "per day" in msg:
+                    h = re.search(r"retry in (?:(\d+)h)?(?:(\d+)m)?", msg)
+                    reset = (f" It resets in about {h.group(1) or 0}h {h.group(2) or 0}m."
+                             if h and (h.group(1) or h.group(2)) else "")
+                    raise DailyQuotaExceeded(
+                        "Gemini free-tier DAILY request limit reached for this model." + reset +
+                        " Wait for the reset, switch CHAT_MODEL / JUDGE_MODEL in .env, or enable billing.") from exc
                 if i == attempts - 1:
                     raise
-                msg = str(exc)
                 if "429" in msg or "RESOURCE_EXHAUSTED" in msg:
                     m = re.search(r"retry in ([\d.]+)s|'retryDelay': '(\d+)s'", msg)
                     wait = min(float(m.group(1) or m.group(2)) + 1, 65) if m else 30
@@ -96,12 +113,13 @@ class GeminiLLM:
             vectors.extend(e.values for e in resp.embeddings)
         return [_normalize(v) for v in vectors]
 
-    def generate_json(self, system: str, prompt: str) -> dict:
+    def generate_json(self, system: str, prompt: str, model: str | None = None) -> dict:
         from google.genai import types
 
-        self._throttle()
+        model = model or self.chat_model
+        self._throttle(model)
         resp = self._retry(lambda: self.client.models.generate_content(
-            model=self.chat_model,
+            model=model,
             contents=prompt,
             config=types.GenerateContentConfig(
                 system_instruction=system,
@@ -146,7 +164,7 @@ class FakeLLM:
             out.append(_normalize(v))
         return out
 
-    def generate_json(self, system: str, prompt: str) -> dict:
+    def generate_json(self, system: str, prompt: str, model: str | None = None) -> dict:
         if "TASK: ROUTE" in system:
             return self._route(prompt)
         if "TASK: ANSWER" in system:

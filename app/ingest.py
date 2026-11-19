@@ -7,9 +7,17 @@ from __future__ import annotations
 
 import csv
 import hashlib
+import logging
 import re
 from dataclasses import asdict, dataclass
 from pathlib import Path
+
+
+log = logging.getLogger("supportbot.ingest")
+
+
+class UnreadableDocument(ValueError):
+    """The file can't be parsed or has no text (e.g. a scanned PDF without OCR)."""
 
 
 @dataclass
@@ -91,12 +99,17 @@ def load_file(path: Path, size: int, overlap: int) -> list[Chunk]:
 
     elif suffix == ".pdf":
         from pypdf import PdfReader
+        from pypdf.errors import PdfReadError
 
         n = 0
-        for page_no, page in enumerate(PdfReader(str(path)).pages, start=1):
-            for piece in split_text(page.extract_text() or "", size, overlap):
-                chunks.append(Chunk(_chunk_id(name, n, piece), piece, name, page=page_no))
-                n += 1
+        try:
+            pages = PdfReader(str(path)).pages
+            for page_no, page in enumerate(pages, start=1):
+                for piece in split_text(page.extract_text() or "", size, overlap):
+                    chunks.append(Chunk(_chunk_id(name, n, piece), piece, name, page=page_no))
+                    n += 1
+        except (PdfReadError, ValueError, KeyError) as exc:
+            raise UnreadableDocument(f"{name} is not a readable PDF ({exc}).") from exc
 
     elif suffix == ".csv":
         with path.open(newline="", encoding="utf-8") as f:
@@ -104,12 +117,21 @@ def load_file(path: Path, size: int, overlap: int) -> list[Chunk]:
                 text = "; ".join(f"{k}: {v}" for k, v in row.items() if v)
                 label = row.get("name") or row.get("sku") or f"row {n + 1}"
                 chunks.append(Chunk(_chunk_id(name, n, text), text, name, section=label))
+    if not chunks:
+        raise UnreadableDocument(f"No text found in {name}. Scanned PDFs need OCR first.")
     return chunks
 
 
+SUPPORTED = {".md", ".txt", ".pdf", ".csv"}
+
+
 def load_directory(docs_dir: Path, size: int, overlap: int) -> list[Chunk]:
+    """Load every supported file. A broken file is logged and skipped, not fatal."""
     chunks: list[Chunk] = []
     for path in sorted(docs_dir.iterdir()):
-        if path.suffix.lower() in {".md", ".txt", ".pdf", ".csv"}:
-            chunks.extend(load_file(path, size, overlap))
+        if path.suffix.lower() in SUPPORTED:
+            try:
+                chunks.extend(load_file(path, size, overlap))
+            except (UnreadableDocument, UnicodeDecodeError, csv.Error) as exc:
+                log.warning("Skipping %s: %s", path.name, exc)
     return chunks
